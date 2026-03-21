@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send a Gift | Jay 2026</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-red-bar">
+        <span>ARCHER HIGH SCHOOL</span>
+        <span>CLASS OF 2026</span>
+    </div>
+
+    <nav class="nav-container">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="story.html">My Story</a></li>
+            <li><a href="event.html">The Event</a></li>
+            <li><a href="rsvp.html">RSVP</a></li>
+            <li><a href="gift.html" class="active">Send Gift</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <main class="gift-layout-container">
+        <header class="gift-layout-header">
+            <h1 class="gift-layout-title">Support Jeremiah’s Next Chapter</h1>
+            <p class="gift-layout-subtitle">Your generosity means so much as Jeremiah steps into his next chapter.</p>
+        </header>
+
+        <div class="gift-layout-twocol">
+            <div class="gift-layout-card">
+                <span class="gift-layout-label">CASHAPP</span>
+                <div class="gift-layout-value" id="cash-tag">$jayskii</div>
+                <button class="btn-gift-copy" onclick="copyValue('$jayskii', this)" aria-label="Copy CashApp tag to clipboard">
+                    <span class="btn-text">Copy CashApp Tag</span>
+                </button>
+            </div>
+
+            <div class="gift-layout-card">
+                <span class="gift-layout-label">ZELLE</span>
+                <div class="gift-layout-value" id="zelle-num">+1 (470) 538‑3375</div>
+                <button class="btn-gift-copy" onclick="copyValue('+14705383375', this)" aria-label="Copy Zelle number to clipboard">
+                    <span class="btn-text">Copy Zelle Number</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col identity">
+                <img src="images/logo/Logo.png" alt="Jay Logo" class="footer-logo">
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 LAB Graphics Digital. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function copyValue(text, btn) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.querySelector('.btn-text').innerText;
+                
+                // Change state
+                btn.classList.add('copied');
+                btn.querySelector('.btn-text').innerText = "✓ Copied!";
+                
+                // Revert after 1.5s
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.querySelector('.btn-text').innerText = originalText;
+                }, 1500);
+            });
+        }
+    </script>
+</body>
+</html>

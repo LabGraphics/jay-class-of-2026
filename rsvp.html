@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeremiah Graduation 2026 - RSVP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-red-bar">
+        <span>ARCHER HIGH SCHOOL</span>
+        <span>CLASS OF 2026</span>
+    </div>
+
+    <nav class="nav-container">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="story.html">My Story</a></li>
+            <li><a href="event.html">The Event</a></li>
+            <li><a href="rsvp.html" class="active">RSVP</a></li>
+            <li><a href="gift.html">Send Gift</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <section class="rsvp-layout-container" id="rsvp">
+        <div class="rsvp-layout-twocol">
+            <div class="rsvp-layout-text">
+                <h1 class="rsvp-layout-title">Kindly Respond</h1>
+                <p class="rsvp-desc">Please let us know if you’ll be joining us to celebrate Jeremiah’s graduation. This milestone is filled with pride, joy, and gratitude for everyone who has supported him along the way, and your presence would mean so much as we honor this moment together.</p>
+                
+                <h2 class="rsvp-layout-subheading">Graduation Ceremony</h2>
+                <div class="rsvp-event-date">May 20, 2026 &bull; 3:00 PM</div>
+                
+                <h2 class="rsvp-layout-subheading">Celebration Party</h2>
+                <div class="rsvp-event-date">June 6, 2026 &bull; 4:00 PM</div>
+            </div>
+            
+            <div class="rsvp-layout-card-col">
+                <div class="rsvp-card">
+                    <h2 class="rsvp-card-title">RSVP</h2>
+                    <div class="rsvp-divider-line"></div>
+                    
+                    <form id="rsvp-form" onsubmit="handleRSVPSubmit(event)">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        
+                        <div class="form-group form-radio-group">
+                            <label>Attendance Options</label>
+                            <div class="radio-options">
+                                <label class="radio-label">
+                                    <input type="radio" name="attendance" value="ceremony" onchange="toggleRSVPSettings()" required>
+                                    Graduation Ceremony
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="attendance" value="celebration" onchange="toggleRSVPSettings()">
+                                    Celebration Party
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="attendance" value="both" onchange="toggleRSVPSettings()">
+                                    Both Events
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="attendance" value="decline" onchange="toggleRSVPSettings()">
+                                    Regretfully Declines
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-radio-group" id="bringing-guests-group" style="display: none;">
+                            <label>Are you bringing additional guests?</label>
+                            <div class="radio-options" style="flex-wrap: wrap; flex-direction: row; gap: 20px;">
+                                <label class="radio-label">
+                                    <input type="radio" name="bringingGuests" value="yes" onchange="toggleRSVPSettings()">
+                                    Yes
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="bringingGuests" value="no" onchange="toggleRSVPSettings()" checked>
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" id="guest-count-group" style="display: none;">
+                            <label for="guests">Guest Quantity</label>
+                            <select id="guests" name="guests">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5+">5+</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Optional Message</label>
+                            <textarea id="message" name="message" rows="3"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-rsvp-submit">CONFIRM ATTENDANCE</button>
+                    </form>
+
+                    <div id="rsvp-success" style="display: none;">
+                        <p class="success-msg">Thank you for your response.<br>We look forward to celebrating with you!</p>
+                        <p class="signature">— Jay</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col identity">
+                <img src="images/logo/Logo.png" alt="Jay Logo" class="footer-logo">
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 LAB Graphics Digital. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    function toggleRSVPSettings() {
+        const attendanceEl = document.querySelector('input[name="attendance"]:checked');
+        const bringingGuestsEl = document.querySelector('input[name="bringingGuests"]:checked');
+        
+        const bringingGuestsGroup = document.getElementById('bringing-guests-group');
+        const guestCountGroup = document.getElementById('guest-count-group');
+        
+        const attendance = attendanceEl ? attendanceEl.value : '';
+        const bringingGuests = bringingGuestsEl ? bringingGuestsEl.value : 'no';
+
+        if (attendance === 'decline' || attendance === '') {
+            bringingGuestsGroup.style.display = 'none';
+            guestCountGroup.style.display = 'none';
+        } else {
+            bringingGuestsGroup.style.display = 'block';
+            
+            if (bringingGuests === 'yes') {
+                guestCountGroup.style.display = 'block';
+            } else {
+                guestCountGroup.style.display = 'none';
+            }
+        }
+    }
+
+    function createConfetti() {
+        const card = document.querySelector('.rsvp-card');
+        card.style.position = 'relative';
+        card.style.overflow = 'hidden';
+
+        for (let i = 0; i < 40; i++) {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            
+            // Randomize color: Archer Red or Silver
+            confetti.style.backgroundColor = Math.random() > 0.5 ? '#A00000' : '#C0C0C0';
+            
+            // Randomize position and animation decay
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.animationDuration = (Math.random() * 1 + 2) + 's'; // 2-3 seconds fall
+            confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+            
+            card.appendChild(confetti);
+
+            setTimeout(() => {
+                confetti.remove();
+            }, 3500);
+        }
+    }
+
+    function handleRSVPSubmit(event) {
+        event.preventDefault(); // Stop page reload
+        
+        const formEl = document.getElementById('rsvp-form');
+        const success = document.getElementById('rsvp-success');
+        
+        // Ensure success message remains readable while confetti falls over it behind the text if possible (z-index logic in css)
+        success.style.position = 'relative';
+        success.style.zIndex = '10000'; // above confetti which is 9999
+        
+        // Convert Form to JSON and shoot to /api/rsvp (server.js backend)
+        const formData = new FormData(formEl);
+        const data = Object.fromEntries(formData.entries());
+
+        fetch('/api/rsvp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).catch(err => console.log('Backend not available, proceeding visually:', err))
+        .finally(() => {
+            // Fade out form and show success message
+            formEl.style.opacity = '0';
+            setTimeout(() => {
+                formEl.style.display = 'none';
+                success.style.display = 'block';
+                setTimeout(() => {
+                    success.style.opacity = '1';
+                    createConfetti(); // Trigger the exact subtle cascading animation
+                }, 50); 
+            }, 300); 
+        });
+    }
+    </script>
+</body>
+</html>

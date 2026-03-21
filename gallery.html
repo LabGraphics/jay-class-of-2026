@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeremiah Graduation 2026 - Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-red-bar">
+        <span>ARCHER HIGH SCHOOL</span>
+        <span>CLASS OF 2026</span>
+    </div>
+
+    <nav class="nav-container">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="story.html">My Story</a></li>
+            <li><a href="event.html">The Event</a></li>
+            <li><a href="rsvp.html">RSVP</a></li>
+            <li><a href="gift.html">Send Gift</a></li>
+            <li><a href="gallery.html" class="active">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <main class="gallery-container">
+        <header class="gallery-header">
+            <h1 class="gallery-title">Gallery</h1>
+            <p class="gallery-subtitle">A few moments from Jeremiah’s journey.</p>
+        </header>
+
+        <div id="image-grid" class="gallery-grid">
+            <!-- Images will dynamically inject here via gallery.js -->
+        </div>
+    </main>
+
+    <!-- Invisible Lightbox Framework -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-lightbox" id="close-lightbox">&times;</span>
+        <button class="nav-btn prev-btn" id="prev-btn">&#10094;</button>
+        <img id="lightbox-img" class="lightbox-img" src="" alt="Gallery Lightbox Image">
+        <button class="nav-btn next-btn" id="next-btn">&#10095;</button>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col identity">
+                <img src="images/logo/Logo.png" alt="Jay Logo" class="footer-logo">
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 LAB Graphics Digital. All rights reserved.</p>
+        </div>
+    </footer>
+    </footer>
+
+    <!-- Initialize Gallery Logic -->
+    <script src="gallery.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1613 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Great+Vibes&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --archer-red: #B00000;
+}
+
+/* Ensure the landing page fits on one screen conceptually, but let it scroll down for the footer! */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevents horizontal accidental scrolling without breaking native anchor jumps */
+    background: #ffffff;
+    font-family: 'Work Sans', sans-serif;
+    color: #000000;
+    line-height: 1.5;
+}
+
+/* Global Headings */
+h1, h2, h3, h4 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    color: #000000;
+    margin: 24px 0 16px 0;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2, h3 {
+    text-align: left;
+}
+
+/* Signature */
+.signature {
+    font-family: 'Great Vibes', cursive;
+    color: #000000;
+    font-style: italic;
+    font-size: 24px;
+    text-align: left;
+    display: block;
+    margin-top: 16px;
+}
+
+/* TOP BANNER */
+.top-red-bar {
+    background-color: var(--archer-red);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 60px;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* NAVIGATION */
+.nav-container ul {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows stacking if it gets too tight */
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+    border-bottom: 2px solid #000;
+}
+
+.nav-container ul li a {
+    text-decoration: none;
+    color: var(--archer-red); /* Uniform Color */
+    margin: 0 15px; /* Reduced margin to fit better on tablets */
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.nav-container ul li a.active {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+}
+
+/* HERO LAYOUT */
+.hero {
+    display: flex;
+    height: calc(100vh - 110px); /* Subtracts height of top bar and nav */
+    align-items: center;
+}
+
+.hero-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Horizontally Centered */
+    text-align: center;    /* Text Centered */
+    padding: 0 60px;
+    z-index: 10;
+}
+
+.branding-logo {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 10;
+}
+
+.inspirational-quote {
+    color: var(--archer-red); /* Uniform Color */
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    margin-bottom: 35px;
+}
+
+/* THE PILL BUTTON */
+.btn-gift, .pill-button {
+    background-color: var(--archer-red); /* Uniform Color */
+    color: white;
+    padding: 15px 50px;
+    border-radius: 50px; /* Pill Shape */
+    text-decoration: none;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background 0.3s;
+    display: inline-block;
+}
+
+.btn-gift:hover, .pill-button:hover {
+    background-color: #7a1727; /* Slightly darker shade for interaction */
+}
+
+.pill-button.small {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.pill-button.outline {
+    background: transparent;
+    color: var(--archer-red);
+    border: 1px solid var(--archer-red);
+}
+
+/* CAROUSEL & FOREGROUND */
+.hero-right {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    /* No overflow: hidden here, so the carousel can slide left */
+}
+
+.carousel-container {
+    position: absolute;
+    width: 125%; /* Expand width significantly over 50% of hero space */
+    height: 100%; /* Matches hero section height */
+    left: 0;
+    margin-left: -120px;
+    transform: translateX(-120px); /* Explicit shift left requested */
+    z-index: 1;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center; 
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    filter: grayscale(100%) opacity(0.2) blur(1px); 
+    /* Directional feathered edge blending image into the white background */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent 0%, black 25%, black 75%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%);
+    mask-composite: intersect;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+.sharp-foreground {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 92%;
+    z-index: 5; /* Keeps Jeremiah on top of the shifted background */
+    /* Add a slight fade on the left edge of the image if it feels too sharp against the text */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%); /* Safari support */
+    mask-image: linear-gradient(to right, transparent, black 10%);
+}
+
+/* Hero Mobile Responsive */
+@media (max-width: 900px) {
+    .nav-container ul {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+        gap: 10px;
+    }
+    .nav-container ul li {
+        width: 100%;
+        text-align: center;
+    }
+    .nav-container ul li a {
+        display: block;
+        padding: 5px;
+        margin: 0;
+    }
+    
+    .hero {
+        flex-direction: column;
+        height: auto;
+    }
+    .hero-left {
+        padding: 40px 20px;
+        order: 1; 
+        text-align: center;
+    }
+    .hero-right {
+        order: 2;
+        width: 100%;
+        height: 50vh; 
+        margin-top: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    .carousel-container {
+        width: 100%;
+        height: 100%;
+        left: 0;
+        margin-left: 0;
+        transform: none;
+    }
+    .sharp-foreground {
+        height: 100%;
+        right: 50%;
+        transform: translateX(50%);
+    }
+    .branding-logo {
+        max-width: 80%;
+    }
+}
+
+/* GIFT PAGE SPECIFICS */
+.gift-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.header-black {
+    color: #000000 !important;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+.page-header {
+    margin-bottom: 50px;
+}
+
+.gift-page .subtitle {
+    color: var(--archer-red);
+    font-style: italic;
+    font-size: 1.2rem;
+}
+
+.gift-grid-dual {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 40px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+    .gift-grid-dual {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.payment-card {
+    background: #ffffff;
+    border: 2px solid #A00000; /* Exact Spec Red */
+    border-radius: 16px;
+    padding: 30px;
+    flex: 1;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+}
+
+.payment-card:hover {
+    transform: translateY(-5px);
+}
+
+.payment-label {
+    display: block;
+    color: #666;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.payment-value {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.copy-btn {
+    background-color: #A00000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.copy-btn.copied {
+    background-color: #28a745; /* Success Green */
+}
+
+/* FOOTER CSS */
+.site-footer {
+    background-color: #ffffff;
+    padding: 20px 0 10px 0; /* Proportional spacing above and below */
+    width: 100%;
+    border-top: 1px solid var(--archer-red); /* Thin divider */
+}
+
+.footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center; /* Center content */
+    align-items: center;
+    padding: 0 50px;
+}
+
+.footer-col {
+    display: flex;
+    justify-content: center;
+}
+
+/* Identity Style */
+.footer-logo {
+    width: 80px; /* "between 70–90px" strictly applied */
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Bottom Bar */
+.footer-bottom {
+    text-align: center;
+    margin-top: 20px; /* Clean proportional spacing */
+    padding-top: 10px;
+    border-top: 1px solid #C0C0C0; /* Archer Silver Accent */
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #C0C0C0; /* Archer Silver Text */
+}
+
+@media (max-width: 900px) {
+    .footer-grid {
+        flex-direction: column;
+        gap: 16px; 
+    }
+}
+
+/* STORY V8: LAYOUT WITH SIGNATURE */
+.story-v8-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px; /* Reduced to ensure one-screen fit */
+    background: #ffffff;
+}
+
+.story-v8-twocol {
+    display: flex;
+    align-items: stretch; /* Forces columns to match height */
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.story-v8-text {
+    flex: 1;
+    max-width: 600px; /* Limit paragraph width */
+}
+
+.story-v8-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    text-align: left; /* Left aligned with paragraph */
+    color: #000;
+    font-size: 3rem;
+    margin: 0 0 20px 0; /* 16-20px spacing below title */
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.story-v8-text p {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+    margin: 0 0 20px 0; /* Space between paragraphs */
+    text-align: left; /* Left aligned */
+}
+
+.story-v8-text p:last-of-type {
+    margin-bottom: 0px; /* Flush bottom for signature alignment */
+}
+
+.story-v8-signature {
+    font-family: 'Fraunces', serif; /* Elegant styling for signature */
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--archer-red); /* Using the established Red Accent */
+    margin-top: 16px; /* 12-16px spacing above relative to bottom of paragraph */
+    text-align: left;
+}
+
+.story-v8-portrait {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.v8-portrait-img {
+    width: 100%;
+    /* Increased slightly per spec to let it fill more space but avoid scrolling */
+    max-height: 460px; 
+    height: 100%; /* Height matches text column dynamically based on stretch */
+    object-fit: contain;
+    object-position: top; /* Ensures the image remains top-aligned flush with text block */
+    border-radius: 16px;
+    display: block;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+    .story-v8-twocol {
+        flex-direction: column;
+        gap: 24px; /* 20-24px vertical spacing */
+    }
+    .story-v8-portrait {
+        order: 2; /* Image second on mobile */
+    }
+    .story-v8-text {
+        order: 1; /* Title + Paragraph block + signature first on mobile */
+    }
+    .v8-portrait-img {
+        height: auto;
+        max-height: 320px; /* Allow smaller natural scaling on mobile */
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .footer-grid {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+    }
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+/* THE EVENT LAYOUT (Mirrors Story V8) */
+.event-layout-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background: #ffffff;
+}
+
+.event-layout-twocol {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.event-layout-text {
+    flex: 1;
+    max-width: 600px;
+}
+
+.event-layout-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    text-align: left;
+    color: #000;
+    font-size: 3rem;
+    margin: 0 0 20px 0; /* 16-20px spacing below title */
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+/* Event Blocks */
+.event-block {
+    margin-bottom: 24px; /* 20-24px spacing between blocks */
+}
+
+.event-block:last-child {
+    margin-bottom: 0px; 
+}
+
+.event-sub-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    color: var(--archer-red);
+    margin: 0 0 8px 0;
+    text-align: left;
+}
+
+.event-block p {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #333;
+    margin: 0 0 4px 0;
+    text-align: left;
+}
+
+.event-layout-portrait {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.event-portrait-img {
+    width: 100%;
+    max-height: 460px; /* Same logic as My Story */
+    height: 100%; 
+    object-fit: contain;
+    object-position: top;
+    border-radius: 16px;
+    display: block;
+}
+
+/* Event Mobile Responsive */
+@media (max-width: 900px) {
+    .event-layout-twocol {
+        flex-direction: column;
+        gap: 24px; /* 20-24px vertical spacing */
+    }
+    .event-layout-portrait {
+        order: 2; 
+    }
+    .event-layout-text {
+        order: 1; 
+    }
+    .event-portrait-img {
+        height: auto;
+        max-height: 320px; 
+    }
+}
+
+/* ================= CONFETTI ANIMATION ================= */
+.confetti {
+    position: absolute;
+    width: 6px;
+    height: 12px;
+    top: -20px;
+    opacity: 0.8;
+    z-index: 9999;
+    pointer-events: none;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* RSVP LAYOUT (Mirrors Story/Event) */
+.rsvp-layout-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background: #ffffff;
+}
+
+.rsvp-layout-twocol {
+    display: flex;
+    align-items: center; /* Vertically centers the left column relative to the right card */
+    justify-content: space-between;
+    gap: 32px;
+}
+
+.rsvp-layout-text {
+    flex: 1;
+    max-width: 600px;
+}
+
+.rsvp-layout-title,
+.rsvp-layout-subheading {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--archer-red);
+    text-align: left;
+    margin: 20px 0 10px 0;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.rsvp-layout-title {
+    font-size: 3rem;
+}
+
+.rsvp-layout-subheading {
+    font-size: 2rem;
+}
+
+.rsvp-desc {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400;
+    font-size: 1.1rem; /* 16-18px */
+    line-height: 1.6;
+    color: #000;
+    margin: 0;
+    text-align: left;
+    max-width: 500px; /* Keep max width to 420-520px range */
+}
+
+.rsvp-event-date {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 0.5px;
+    text-align: left;
+    margin: 6px 0 20px 0;
+}
+
+/* Right Column Card Container */
+.rsvp-layout-card-col {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* RSVP Card Design */
+.rsvp-card {
+    background: #ffffff;
+    border: 1.5px solid var(--archer-red);
+    border-radius: 16px;
+    padding: 32px; /* Internal 24-32px */
+    width: 100%;
+    max-width: 500px;
+}
+
+.rsvp-card-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 2rem;
+    color: #000;
+    text-align: center;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.rsvp-divider-line {
+    background-color: var(--archer-red);
+    height: 1px;
+    width: 50px;
+    margin: 0 auto 24px auto;
+}
+
+/* RSVP Form Fields */
+#rsvp-form {
+    transition: opacity 0.3s ease;
+}
+.form-group {
+    margin-bottom: 20px; /* 16-20px between fields */
+    text-align: left;
+}
+.form-group label {
+    display: block;
+    font-family: 'Work Sans', sans-serif; /* clean, minimal */
+    font-weight: normal;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background: #ffffff;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--archer-red); /* Slight emphasis on focus */
+}
+
+/* Radios */
+.form-radio-group {
+    margin-bottom: 20px;
+}
+.radio-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.radio-label {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: normal;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #333;
+}
+
+/* Button */
+.btn-rsvp-submit {
+    width: 100%;
+    background-color: var(--archer-red);
+    color: #ffffff;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 50px; /* Pill */
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    margin-top: 10px;
+}
+.btn-rsvp-submit:hover {
+    background-color: #7a1727;
+    transform: scale(1.05); /* scale up by 5% */
+}
+
+/* Success State */
+#rsvp-success {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-align: center;
+    padding: 40px 0;
+}
+.success-msg {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 20px;
+}
+.success-signature {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    color: var(--archer-red);
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+    .rsvp-layout-twocol {
+        flex-direction: column;
+        gap: 24px; /* Stack title -> card */
+    }
+    .rsvp-layout-card-col {
+        width: 100%;
+    }
+    .rsvp-card {
+        max-width: 100%; /* Card becomes full-width with consistent padding */
+    }
+}
+
+/* GIFT LAYOUT (Unified Style) */
+.gift-layout-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    background: #ffffff;
+    min-height: 70vh; /* Keys visual centering logically on desktop */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.gift-layout-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.gift-layout-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-style: italic;
+    color: #000000;
+    font-size: 3rem; 
+    margin: 0 0 20px 0; /* 16-20px spacing */
+}
+
+.gift-layout-subtitle {
+    font-family: 'Fraunces', serif; /* Soft micro-copy */
+    font-size: 1.2rem;
+    color: #6F6F6F;
+    margin: 0;
+}
+
+.gift-layout-twocol {
+    display: flex;
+    justify-content: center;
+    gap: 32px; /* Standard site column gap */
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.gift-layout-card {
+    background: #ffffff;
+    border: 1.5px solid var(--archer-red);
+    border-radius: 16px;
+    padding: 32px; /* 24-32px interval */
+    flex: 1; /* Match widths exactly */
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Soft, low blur */
+}
+
+.gift-layout-label {
+    display: block;
+    font-family: 'Work Sans', sans-serif;
+    text-transform: uppercase;
+    color: #6F6F6F;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 12px; /* 8-12px spacing */
+}
+
+.gift-layout-value {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: bold;
+    color: #000000;
+    font-size: 1.5rem; /* Larger than label */
+    margin-bottom: 20px; /* 16-20px spacing */
+}
+
+.btn-gift-copy {
+    width: 100%;
+    background-color: var(--archer-red);
+    color: #ffffff;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 50px; /* Pill */
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-gift-copy.copied {
+    background-color: #2ECC71 !important;
+}
+
+.btn-gift-copy:hover:not(.copied) {
+    background-color: #8B0000;
+}
+.btn-gift-copy:focus {
+    outline: 2px solid #000;
+    outline-offset: 2px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+    .gift-layout-twocol {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px; /* Stack Vertically */
+    }
+    .gift-layout-card {
+        width: 100%; /* Drop to full margins */
+    }
+}
+
+/* Custom RSVP Confetti Animation */
+.confetti {
+    position: absolute;
+    width: 6px;
+    height: 12px;
+    top: -20px;
+    opacity: 0;
+    z-index: 10;
+    animation: confetti-fall linear forwards;
+    border-radius: 2px; /* Slight rounding for elegance */
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(800px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* GALLERY LAYOUT */
+.gallery-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px; /* 40-60px spec */
+    background: #ffffff;
+}
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 32px; /* 24-32px spacing below */
+}
+
+.gallery-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-style: italic;
+    color: #000000;
+    font-size: 30px; /* 28-32px */
+    margin: 0 0 16px 0; /* 16-20px spacing */
+}
+
+.gallery-subtitle {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    color: #6F6F6F;
+    margin: 0;
+}
+
+/* GALLERY GRID (MASONRY) */
+.gallery-grid {
+    column-count: 3;
+    column-gap: 32px; /* 24-32px gutter spacing */
+    width: 100%;
+}
+
+.gallery-item {
+    width: 100%;
+    break-inside: avoid; /* Prevent splitting across masonry columns */
+    margin-bottom: 32px; /* Bottom gap matches column gap */
+    border-radius: 16px; /* 12-16px */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Subtle shadow */
+    cursor: pointer;
+    opacity: 0; /* For fade-in */
+    transform: translateY(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease;
+    display: block; /* Removes baseline gap under image */
+}
+
+.gallery-item.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (min-width: 901px) {
+    .gallery-item:hover {
+        transform: scale(1.04); /* 3-5% scale up */
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1); /* Subtle shadow increase */
+        z-index: 2; /* Bring active image slightly up */
+        position: relative;
+    }
+}
+
+/* Tablet Layout */
+@media (max-width: 900px) {
+    .gallery-grid {
+        column-count: 2;
+        column-gap: 24px;
+    }
+    .gallery-item {
+        margin-bottom: 24px;
+    }
+}
+
+/* Mobile Layout */
+@media (max-width: 600px) {
+    .gallery-grid {
+        column-count: 1;
+    }
+    .gallery-item {
+        margin-bottom: 20px; /* 16-20px spacing */
+    }
+}
+
+/* LIGHTBOX UI */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Dark semi-transparent */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 8px; /* Slight rounding for bounds */
+    object-fit: contain;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    user-select: none; /* Prevent drag select on desktop swipe */
+}
+
+/* Lightbox Controls */
+.close-lightbox {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10000;
+    transition: color 0.2s ease;
+}
+
+.close-lightbox:hover {
+    color: var(--archer-red);
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: white;
+    border: none;
+    font-size: 50px;
+    cursor: pointer;
+    padding: 20px;
+    z-index: 10000;
+    transition: color 0.2s ease, transform 0.2s ease;
+    opacity: 0.7;
+}
+
+.nav-btn:hover {
+    color: var(--archer-red);
+    opacity: 1;
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+@media (max-width: 600px) {
+    .nav-btn { display: none; } /* Rely on swipe for mobile */
+    .close-lightbox { top: 10px; right: 20px; }
+}
+
+/* ========================================= */
+/* GLOBAL HEADING TYPOGRAPHY OVERRIDES       */
+/* ========================================= */
+
+.header-black,
+.story-v8-title,
+.event-layout-title,
+.rsvp-layout-title,
+.gift-layout-title,
+.gallery-title,
+.rsvp-card-title,
+.event-sub-title {
+    font-family: 'Times New Roman', Times, serif !important;
+    font-style: italic !important;
+    font-weight: 500 !important;
+    font-size: 24px !important;
+    line-height: 1.25 !important;
+    color: #000000 !important;
+}
+
+/* Page Titles (Centered) */
+.header-black,
+.gift-layout-title,
+.gallery-title,
+.rsvp-card-title {
+    text-align: center !important;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+/* Section Headings (Left Aligned) */
+.story-v8-title,
+.event-layout-title,
+.rsvp-layout-title,
+.event-sub-title {
+    text-align: left !important;
+}
+
+/* Mobile Typography Scaling */
+@media (max-width: 900px) {
+    .header-black,
+    .story-v8-title,
+    .event-layout-title,
+    .rsvp-layout-title,
+    .gift-layout-title,
+    .gallery-title,
+    .rsvp-card-title,
+    .event-sub-title {
+        font-size: 20px !important;
+    }
+}
+
+/* ========================================= */
+/* THE CELEBRATION INVITATION PAGE           */
+/* ========================================= */
+
+.event-invite-container {
+    /* Full height math: 100vh - Header(80px) - Nav(63px) - Footer(61px) = ~calc(100vh - 204px) */
+    min-height: calc(100vh - 204px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.event-invite-grid {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1100px;
+    gap: 64px; /* Dynamically forces panels to sit significantly further outward (129px visible center tracking) */
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.event-invite-grid.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.event-invite-divider {
+    width: 1px;
+    background-color: var(--archer-red); /* gown red #B00000 */
+    opacity: 0.4;
+    margin: 32px 0; /* Align internally matching padding dynamically! */
+}
+.event-invite-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+}
+
+/* Typography */
+.panel-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600; /* Medium-bold black requested */
+    font-size: 22px; /* 20-22px */
+    color: #000000;
+    margin: 0 0 16px 0;
+    text-align: left;
+}
+
+/* Timer */
+.panel-timer {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500; /* Medium */
+    font-size: 20px; /* 18-20px */
+    color: var(--archer-red);
+    margin: 0 0 24px 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.cd-num {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+}
+
+.cd-unit {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+    margin-left: 2px;
+}
+
+.cd-colon {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+    margin: 0 4px;
+    color: var(--archer-red);
+}
+
+.cd-today {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--archer-red);
+}
+
+/* Details */
+.panel-details {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* 16px consistent structural spacing */
+    margin-bottom: 32px;
+}
+
+.panel-datetime {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: 0.5px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.panel-venue, .panel-address {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400; /* regular */
+    color: #000000;
+    font-size: 16px; /* 14-16px */
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Actions */
+.panel-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 16px; /* 12-16px spacing */
+    width: 100%;
+}
+
+.btn-action {
+    flex: 1;
+    background-color: var(--archer-red);
+    color: #ffffff;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    box-sizing: border-box;
+    display: block;
+}
+
+.btn-action:hover {
+    background-color: #8B0000;
+    transform: scale(1.05); /* Match Confirm Attendance format */
+}
+
+/* Mobile responsive */
+@media (max-width: 850px) {
+    .event-invite-grid {
+        flex-direction: column;
+        gap: 32px; /* 24-32px spacing between event blocks */
+    }
+    
+    .event-invite-panel {
+        padding: 0;
+    }
+    
+    .event-invite-divider {
+        display: none; /* Native override hiding explicitly on stacking limits natively */
+    }
+    
+    .panel-actions {
+        flex-direction: column; /* stack vectors vertically natively */
+        gap: 16px;
+        width: 100%;
+        margin-top: 32px;
+    }
+    
+    .btn-action {
+        width: 100%; /* Force fill container natively */
+    }
+}
+
+/* ================= CELEBRATION WALL ================= */
+#celebration-wall-section {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+    background: #ffffff;
+    font-family: 'Work Sans', sans-serif;
+}
+
+#celebration-wall-section h2 {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    color: #444; /* matching Archer Silver visual weight */
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 30px;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+/* Post Form (Matches RSVP) */
+.post-form-container {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 40px;
+}
+
+#post-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#post-form input[type="text"],
+#post-form textarea,
+#post-form input[type="file"],
+.reply-form input[type="text"] {
+    width: 100%;
+    padding: 14px 16px; /* 14-16px padding */
+    border: 1px solid #ccc; /* Soft gray border */
+    border-radius: 8px; /* Rounded fields */
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background: #ffffff;
+    transition: border-color 0.3s ease;
+}
+
+#post-form input:focus,
+#post-form textarea:focus,
+.reply-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--archer-red);
+}
+
+#post-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+#post-message-btn,
+.reply-form button {
+    width: 100%;
+    background-color: var(--archer-red);
+    color: #ffffff;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#post-message-btn:hover,
+.reply-form button:hover {
+    background-color: #7a1727;
+    transform: scale(1.02);
+}
+
+.reply-form button {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+/* Message Feed & Cards */
+.message-feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 20px vertical spacing between cards */
+}
+
+.message-item {
+    background: #ffffff; /* White background */
+    border-radius: 16px; /* 12-16px */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Soft drop shadow */
+    padding: 20px; /* 20px internal padding */
+    position: relative;
+}
+
+/* Header (Avatar + Descriptor) */
+.message-item > img {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    float: left; /* left-aligned */
+    margin-right: 15px;
+}
+
+.message-item > p:nth-of-type(1) {
+    margin: 0;
+    padding-top: 4px;
+}
+
+.message-item > p:nth-of-type(1) strong {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #000;
+}
+
+.message-item > p:nth-of-type(1) em {
+    font-style: normal;
+    font-size: 0.85rem;
+    color: #666; /* smaller and muted */
+    margin-left: 8px;
+}
+
+/* Clearfix for float */
+.message-item::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Message Text */
+.message-item > p:nth-of-type(2) {
+    clear: both;
+    font-size: 16px; /* 15-16px */
+    line-height: 1.6; /* Comfortable line height */
+    color: #333;
+    margin: 16px 0; /* Adequate spacing above/below */
+}
+
+/* Reactions Bar */
+.reactions-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.reaction-btn {
+    background-color: #f0f0f0; /* Light gray background */
+    border: none;
+    border-radius: 20px; /* Rounded pills */
+    padding: 6px 14px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.85rem;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.reaction-btn:hover {
+    background-color: #e0e0e0; /* Slight hover effect */
+}
+
+/* Replies section */
+.replies-container {
+    margin-top: 15px;
+    margin-left: 40px; /* Indented */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.reply-item {
+    background-color: #f8f9fa; /* Light gray */
+    border-radius: 12px;
+    border-left: 3px solid #ccc; /* Slight left border */
+    padding: 12px 16px;
+    font-size: 0.9rem; /* Smaller font */
+}
+
+.reply-item p {
+    margin: 0 0 4px 0;
+    line-height: 1.5;
+    color: #333;
+}
+
+.reply-item em { /* Timestamp in reply */
+    font-style: normal;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+/* Reply Input Form placed under replies */
+.reply-form {
+    margin-top: 16px;
+    margin-left: 40px; /* Matching indent */
+    display: flex;
+    gap: 10px;
+}
+
+/* Delete Buttons */
+.delete-message-btn {
+    background: transparent;
+    color: #999;
+    border: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    margin-top: 10px;
+    transition: color 0.2s;
+}
+
+.delete-message-btn:hover,
+.reply-item button:hover {
+    color: var(--archer-red);
+}
+
+.reply-item button { /* Reply delete button */
+    background: transparent;
+    color: #999;
+    border: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    margin-top: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .reply-form {
+        flex-direction: column;
+        margin-left: 0;
+    }
+    
+    .reply-form button {
+        width: 100%;
+    }
+
+    .replies-container {
+        margin-left: 0;
+    }
+    
+    .message-item {
+        padding: 16px;
+    }
+}
+
+/* Global Signature Utility Class */
+.signatureFont {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: var(--archer-red);
+}

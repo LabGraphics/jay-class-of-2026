@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeremiah Graduation 2026 - The Event</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,600&family=Lato:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="top-red-bar">
+        <span>ARCHER HIGH SCHOOL</span>
+        <span>CLASS OF 2026</span>
+    </div>
+
+    <nav class="nav-container">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="story.html">My Story</a></li>
+            <li><a href="event.html" class="active">The Event</a></li>
+            <li><a href="rsvp.html">RSVP</a></li>
+            <li><a href="gift.html">Send Gift</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+        </ul>
+    </nav>
+
+    <main class="event-invite-container">
+        <!-- Two Panels -->
+        <div class="event-invite-grid">
+            <!-- Left Panel: Ceremony -->
+            <div class="event-invite-panel">
+                <h3 class="panel-title">Graduation Ceremony</h3>
+                
+                <div id="grad-timer" class="panel-timer">00M : 00D : 00H : 00M : 00S</div>
+                
+                <div class="panel-details">
+                    <p class="panel-datetime">May 20, 2026 &bull; 3:00 PM</p>
+                    <p class="panel-venue">Gas South Arena</p>
+                    <p class="panel-address">6400 Sugarloaf Pkwy, Duluth, GA 30097</p>
+                </div>
+                
+                <div class="panel-actions">
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Graduation+Ceremony&dates=20260520T150000/20260520T170000&details=Jeremiah%27s+Graduation+Ceremony&location=Gas+South+Arena%2C+Duluth+GA" target="_blank" class="btn-action">Add to Calendar</a>
+                    <a href="https://maps.google.com/?q=Gas+South+Arena" target="_blank" class="btn-action">Open Maps</a>
+                </div>
+            </div>
+
+            <!-- Vertical Divider -->
+            <div class="event-invite-divider"></div>
+
+            <!-- Right Panel: Celebration -->
+            <div class="event-invite-panel">
+                <h3 class="panel-title">Celebration Party</h3>
+                
+                <div id="party-timer" class="panel-timer">00M : 00D : 00H : 00M : 00S</div>
+                
+                <div class="panel-details">
+                    <p class="panel-datetime">June 6, 2026 &bull; 4:00 PM</p>
+                    <p class="panel-venue">Harbins Park Pavilion</p>
+                    <p class="panel-address">2995 Luke Edwards Rd, Dacula, GA 30019</p>
+                </div>
+                
+                <div class="panel-actions">
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Celebration+Party&dates=20260606T160000/20260606T200000&details=Jeremiah%27s+Graduation+Celebration+Party&location=Harbins+Park+Pavilion+2%2C+Dacula+GA" target="_blank" class="btn-action">Add to Calendar</a>
+                    <a href="https://maps.google.com/?q=Harbins+Park+Pavilion+2" target="_blank" class="btn-action">Open Maps</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            /* ============================
+               UNIVERSAL M / D / H / S COUNTDOWN
+               ============================ */
+
+            function startMDHSTimer(targetDateString, elementId) {
+                const target = new Date(targetDateString).getTime();
+
+                function updateTimer() {
+                    const now = new Date().getTime();
+                    let diff = target - now;
+
+                    if (diff <= 0) {
+                        const el = document.getElementById(elementId);
+                        if(el) el.innerHTML = "Happening Today";
+                        return;
+                    }
+
+                    const msInSecond = 1000;
+                    const msInMinute = msInSecond * 60;
+                    const msInHour = msInMinute * 60;
+                    const msInDay = msInHour * 24;
+                    const msInMonth = msInDay * 30.4375;
+
+                    const months = Math.floor(diff / msInMonth);
+                    diff -= months * msInMonth;
+
+                    const days = Math.floor(diff / msInDay);
+                    diff -= days * msInDay;
+
+                    const hours = Math.floor(diff / msInHour);
+                    diff -= hours * msInHour;
+
+                    const seconds = Math.floor(diff / msInSecond);
+
+                    const fMonths = String(months).padStart(2, '0');
+                    const fDays = String(days).padStart(2, '0');
+                    const fHours = String(hours).padStart(2, '0');
+                    const fSeconds = String(seconds).padStart(2, '0');
+
+                    const el = document.getElementById(elementId);
+                    if(el) {
+                        el.innerHTML = `${fMonths}M : ${fDays}D : ${fHours}H : ${fSeconds}S`;
+                    }
+                }
+
+                updateTimer();
+                setInterval(updateTimer, 1000);
+            }
+
+            /* ============================
+               START BOTH EVENT TIMERS
+               ============================ */
+
+            startMDHSTimer("May 20, 2026 15:00:00", "grad-timer");
+            startMDHSTimer("June 6, 2026 16:00:00", "party-timer");
+            
+            // Layout load animation 
+            setTimeout(() => {
+                const grid = document.querySelector('.event-invite-grid');
+                if(grid) grid.classList.add('loaded');
+                
+                createEventConfetti();
+            }, 100);
+            
+            /* ============================
+               EVENT PAGE CONFETTI
+               ============================ */
+            function createEventConfetti() {
+                // Ensure overflow hidden on main wrapper to avoid weird scrollbars during fall
+                document.body.style.overflowX = 'hidden';
+
+                for (let i = 0; i < 50; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    
+                    // Fixed zIndex so it drops behind header ideally, or safely behind carousel visually
+                    confetti.style.zIndex = '2'; 
+                    confetti.style.backgroundColor = Math.random() > 0.5 ? '#A00000' : '#C0C0C0';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.animationDuration = (Math.random() * 1 + 2) + 's'; 
+                    confetti.style.animationDelay = (Math.random() * 0.5) + 's';
+                    
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 3500);
+                }
+            }
+        });
+    </script>
+    
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col identity">
+                <img src="images/logo/Logo.png" alt="Jay Logo" class="footer-logo">
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 LAB Graphics Digital. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
