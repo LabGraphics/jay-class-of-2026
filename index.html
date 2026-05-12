@@ -8,32 +8,22 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preload" as="image" href="images/hero/hero1.jpg">
 
-    <!-- Open Graph / Facebook / iMessage / Messenger -->
+    <meta name="title" content="Jay’s Graduation — Class of 2026">
+    <meta name="description" content="Celebrate Jay’s journey, view event details, RSVP, and share your message.">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jayclassof2026.com/">
     <meta property="og:title" content="Jay’s Graduation — Class of 2026">
     <meta property="og:description" content="Celebrate Jay’s journey, view event details, RSVP, and share your message.">
-    <meta property="og:image" content="/images/hero/hero11.jpg">
-    <meta property="og:url" content="https://jayclassof2026.com">
-    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://jayclassof2026.com/images/hero/hero11.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://jayclassof2026.com/">
     <meta name="twitter:title" content="Jay’s Graduation — Class of 2026">
     <meta name="twitter:description" content="Celebrate Jay’s journey, view event details, RSVP, and share your message.">
-    <meta name="twitter:image" content="/images/hero/hero11.jpg">
-
-    <!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Jay – Class of 2026">
-<meta property="og:description" content="Celebrate Jay’s journey, view event details, RSVP, and share your message.">
-<meta property="og:image" content="https://jayclassof2026.com/images/hero/hero11.jpg">
-<meta property="og:url" content="https://jayclassof2026.com">
-<meta property="og:type" content="website">
-
-<!-- Twitter Card (Recommended for messaging apps) -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Jay – Class of 2026">
-<meta name="twitter:description" content="Celebrate Jay’s journey, view event details, RSVP, and share your message.">
-<meta name="twitter:image" content="https://jayclassof2026.com/images/hero/hero11.jpg">
-
+    <meta name="twitter:image" content="https://jayclassof2026.com/images/hero/hero11.jpg">
 </head>
 
 <body> 
@@ -99,9 +89,6 @@
             </div>
 
             <div id="message-feed" class="message-feed-container"></div>
-
-            <div id="reactions-placeholder" class="reactions-placeholder"></div>
-            <div id="replies-placeholder" class="replies-placeholder"></div>
         </div>
     </section>
 
@@ -123,14 +110,9 @@
         const db = getDatabase(app);
         const messagesRef = ref(db, 'celebration_messages');
 
-        // Manage delete token in localStorage
-        let userDeleteToken = localStorage.getItem('jayMsgDeleteToken');
-        if (!userDeleteToken) {
-            userDeleteToken = 'token_' + Math.random().toString(36).substr(2, 9) + Date.now();
-            localStorage.setItem('jayMsgDeleteToken', userDeleteToken);
-        }
+        let userDeleteToken = localStorage.getItem('jayMsgDeleteToken') || ('token_' + Math.random().toString(36).substr(2, 9) + Date.now());
+        localStorage.setItem('jayMsgDeleteToken', userDeleteToken);
 
-        // File reader to convert uploaded images to Base64
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -140,254 +122,73 @@
             });
         }
 
-        // Helper to escape HTML characters
         function escapeHTML(str) {
-            return String(str || '').replace(/[&<>'"]/g,
-                tag => ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    "'": '&#39;',
-                    '"': '&quot;'
-                }[tag] || tag)
-            );
+            return String(str || '').replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            }[tag] || tag));
         }
 
-        // Handle form visibility toggle
         const toggleFormBtn = document.getElementById('toggle-form-btn');
         const postFormWrapper = document.getElementById('post-form-wrapper');
 
         toggleFormBtn.addEventListener('click', () => {
-            if (postFormWrapper.style.display === 'none' || !postFormWrapper.style.display) {
-                postFormWrapper.style.display = 'block';
-                toggleFormBtn.textContent = 'Cancel';
-            } else {
-                postFormWrapper.style.display = 'none';
-                toggleFormBtn.textContent = 'Leave a Message';
-            }
+            const isHidden = postFormWrapper.style.display === 'none' || !postFormWrapper.style.display;
+            postFormWrapper.style.display = isHidden ? 'block' : 'none';
+            toggleFormBtn.textContent = isHidden ? 'Cancel' : 'Leave a Message';
         });
 
-        // Handle posting new messages
         const postBtn = document.getElementById('post-message-btn');
         postBtn.addEventListener('click', async () => {
             const descriptorInput = document.getElementById('post-descriptor');
             const messageInput = document.getElementById('post-message');
             const avatarInput = document.getElementById('post-avatar');
-
-            const descriptor = descriptorInput.value.trim();
             const text = messageInput.value.trim();
 
-            if (!text) {
-                alert('Please enter a message text.');
-                return;
-            }
+            if (!text) return alert('Please enter a message text.');
 
             postBtn.disabled = true;
             postBtn.textContent = 'Posting...';
 
-            let avatarBase64 = null;
-            if (avatarInput.files && avatarInput.files.length > 0) {
-                try {
-                    avatarBase64 = await fileToBase64(avatarInput.files[0]);
-                } catch (e) {
-                    console.error("Error reading file:", e);
-                }
-            }
+            let avatarBase64 = avatarInput.files[0] ? await fileToBase64(avatarInput.files[0]) : null;
 
             try {
-                const newMessageRef = push(messagesRef);
-                await set(newMessageRef, {
-                    descriptor: descriptor || 'Anonymous',
+                await set(push(messagesRef), {
+                    descriptor: descriptorInput.value.trim() || 'Anonymous',
                     text: text,
                     avatar: avatarBase64,
                     timestamp: Date.now(),
                     deleteToken: userDeleteToken
                 });
-
-                // Clear form inputs after successful post
-                descriptorInput.value = '';
-                messageInput.value = '';
-                avatarInput.value = '';
+                descriptorInput.value = ''; messageInput.value = ''; avatarInput.value = '';
             } catch (error) {
-                console.error("Error posting message:", error);
-                alert("Failed to post message. See console for details.");
+                console.error(error);
             } finally {
                 postBtn.disabled = false;
                 postBtn.textContent = 'Post Message';
-
-                // Hide form after successful post attempt
                 postFormWrapper.style.display = 'none';
                 toggleFormBtn.textContent = 'Leave a Message';
             }
         });
 
-        // Realtime DB listener for the message feed
         const feedContainer = document.getElementById('message-feed');
         onValue(messagesRef, (snapshot) => {
             feedContainer.innerHTML = '';
             const data = snapshot.val();
             if (!data) return;
-
-            // Convert to array and sort by newest first
-            const messages = Object.entries(data).map(([id, msg]) => ({ id, ...msg }));
-            messages.sort((a, b) => b.timestamp - a.timestamp);
-
-            messages.forEach(msg => {
+            Object.entries(data).sort((a, b) => b[1].timestamp - a[1].timestamp).forEach(([id, msg]) => {
                 const msgDiv = document.createElement('div');
                 msgDiv.className = 'message-item';
-
-                // Display Avatar base64
                 if (msg.avatar) {
                     const img = document.createElement('img');
-                    img.src = msg.avatar;
-                    img.alt = 'Avatar';
-                    img.style.maxWidth = '100px';
+                    img.src = msg.avatar; img.style.maxWidth = '100px';
                     msgDiv.appendChild(img);
                 }
-
-                // Display Descriptor and Timestamp
                 const headerP = document.createElement('p');
-                const dateHeader = new Date(msg.timestamp).toLocaleString();
-                headerP.innerHTML = `<strong>${escapeHTML(msg.descriptor)}</strong> - <em>${dateHeader}</em>`;
+                headerP.innerHTML = `<strong>${escapeHTML(msg.descriptor)}</strong> - <em>${new Date(msg.timestamp).toLocaleString()}</em>`;
                 msgDiv.appendChild(headerP);
-
-                // Display Message Text
                 const textP = document.createElement('p');
                 textP.textContent = msg.text;
                 msgDiv.appendChild(textP);
-
-                // Add Reactions
-                const reactionsDiv = document.createElement('div');
-                reactionsDiv.className = 'reactions-container';
-
-                const reactions = msg.reactions || { heart: 0, celebrate: 0, clap: 0 };
-                ['heart', 'celebrate', 'clap'].forEach(type => {
-                    const reactBtn = document.createElement('button');
-                    reactBtn.textContent = `${type} (${reactions[type] || 0})`;
-                    reactBtn.className = 'reaction-btn';
-                    reactBtn.addEventListener('click', () => {
-                        update(ref(db, `celebration_messages/${msg.id}/reactions`), {
-                            [type]: increment(1)
-                        });
-                    });
-                    reactionsDiv.appendChild(reactBtn);
-                });
-                msgDiv.appendChild(reactionsDiv);
-
-                // Add Replies
-                const repliesContainer = document.createElement('div');
-                repliesContainer.className = 'replies-container';
-
-                if (msg.replies) {
-                    const replyEntries = Object.entries(msg.replies).sort((a, b) => a[1].timestamp - b[1].timestamp);
-                    replyEntries.forEach(([replyId, replyData]) => {
-                        const replyDiv = document.createElement('div');
-                        replyDiv.className = 'reply-item';
-
-                        const rText = document.createElement('p');
-                        const rDate = new Date(replyData.timestamp).toLocaleString();
-                        rText.innerHTML = `<em>${rDate}</em> - ${escapeHTML(replyData.text)}`;
-
-                        const rDelBtn = document.createElement('button');
-                        rDelBtn.textContent = 'Delete Reply';
-                        rDelBtn.addEventListener('click', () => {
-                            if (replyData.deleteToken === userDeleteToken) {
-                                if (confirm("Are you sure you want to delete your reply?")) {
-                                    remove(ref(db, `celebration_messages/${msg.id}/replies/${replyId}`));
-                                }
-                            } else {
-                                const adminKey = prompt("Enter admin key to delete this reply:");
-                                if (adminKey === 'JAY-ADMIN-2026') {
-                                    remove(ref(db, `celebration_messages/${msg.id}/replies/${replyId}`));
-                                } else if (adminKey !== null) {
-                                    alert("Incorrect admin key or unauthorized.");
-                                }
-                            }
-                        });
-
-                        replyDiv.appendChild(rText);
-                        replyDiv.appendChild(rDelBtn);
-                        repliesContainer.appendChild(replyDiv);
-                    });
-                }
-
-                // Reply Input Form
-                const replyForm = document.createElement('div');
-                replyForm.className = 'reply-form';
-                replyForm.style.display = 'none'; // Hidden by default
-
-                const replyInput = document.createElement('input');
-                replyInput.type = 'text';
-                replyInput.placeholder = 'Write a reply...';
-
-                const replySubmitBtn = document.createElement('button');
-                replySubmitBtn.textContent = 'Reply';
-                replySubmitBtn.addEventListener('click', () => {
-                    const replyText = replyInput.value.trim();
-                    if (!replyText) return;
-
-                    push(ref(db, `celebration_messages/${msg.id}/replies`), {
-                        text: replyText,
-                        timestamp: Date.now(),
-                        deleteToken: userDeleteToken
-                    });
-                    replyInput.value = '';
-                });
-
-                replyForm.appendChild(replyInput);
-                replyForm.appendChild(replySubmitBtn);
-
-                msgDiv.appendChild(repliesContainer);
-                msgDiv.appendChild(replyForm);
-
-                // Add Actions Container (Reply toggle + Delete)
-                const actionsContainer = document.createElement('div');
-                actionsContainer.style.marginTop = '10px';
-                actionsContainer.style.display = 'flex';
-                actionsContainer.style.gap = '15px';
-                actionsContainer.style.alignItems = 'center';
-
-                const toggleReplyBtn = document.createElement('button');
-                toggleReplyBtn.textContent = 'Reply';
-                toggleReplyBtn.style.background = 'transparent';
-                toggleReplyBtn.style.color = '#999';
-                toggleReplyBtn.style.border = 'none';
-                toggleReplyBtn.style.cursor = 'pointer';
-                toggleReplyBtn.style.padding = '0';
-                toggleReplyBtn.style.textDecoration = 'underline';
-                toggleReplyBtn.style.fontSize = '0.8rem';
-
-                toggleReplyBtn.addEventListener('mouseover', () => toggleReplyBtn.style.color = 'var(--archer-red)');
-                toggleReplyBtn.addEventListener('mouseout', () => toggleReplyBtn.style.color = '#999');
-
-                toggleReplyBtn.addEventListener('click', () => {
-                    replyForm.style.display = replyForm.style.display === 'none' ? 'flex' : 'none';
-                });
-
-                // Display Delete Button with logic
-                const delBtn = document.createElement('button');
-                delBtn.textContent = 'Delete Message';
-                delBtn.className = 'delete-message-btn';
-                delBtn.style.marginTop = '0'; // reset inherited margin since it's in a flex row
-                delBtn.addEventListener('click', () => {
-                    if (msg.deleteToken === userDeleteToken) {
-                        if (confirm("Are you sure you want to delete your message?")) {
-                            remove(ref(db, `celebration_messages/${msg.id}`));
-                        }
-                    } else {
-                        const adminKey = prompt("Enter admin key to delete this message:");
-                        if (adminKey === 'JAY-ADMIN-2026') {
-                            remove(ref(db, `celebration_messages/${msg.id}`));
-                        } else if (adminKey !== null) {
-                            alert("Incorrect admin key or unauthorized.");
-                        }
-                    }
-                });
-
-                actionsContainer.appendChild(toggleReplyBtn);
-                actionsContainer.appendChild(delBtn);
-                msgDiv.appendChild(actionsContainer);
-
                 feedContainer.appendChild(msgDiv);
             });
         });
@@ -396,15 +197,21 @@
     <script>
         const slides = document.querySelectorAll('.slide');
         let index = 0;
-
-        function transitionSlides() {
+        setInterval(() => {
             slides[index].classList.remove('active');
             index = (index + 1) % slides.length;
             slides[index].classList.add('active');
-        }
+        }, 2000);
 
-        // Initialize carousel continuously matching transition speed
-        setInterval(transitionSlides, 2000);
+        document.addEventListener('click', (e) => {
+            const target = e.target.closest('a[href="#rsvp"]');
+            if (target) {
+                e.preventDefault();
+                const rsvpElem = document.getElementById('rsvp');
+                if (rsvpElem) rsvpElem.scrollIntoView({ behavior: 'smooth' });
+                else window.location.href = 'rsvp.html#rsvp';
+            }
+        });
     </script>
 
     <footer class="site-footer">
@@ -413,26 +220,9 @@
                 <img src="images/logo/Logo.png" alt="Jay Logo" class="footer-logo">
             </div>
         </div>
-
         <div class="footer-bottom">
             <p>© 2026 LAB Graphics Digital. All rights reserved.</p>
         </div>
     </footer>
-
-    <script>
-        document.addEventListener('click', function (event) {
-            const target = event.target.closest('a[href="#rsvp"]');
-            if (target) {
-                event.preventDefault();
-                const rsvpElem = document.getElementById('rsvp');
-                if (rsvpElem) {
-                    rsvpElem.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    window.location.href = 'rsvp.html#rsvp';
-                }
-            }
-        });
-    </script>
 </body>
-
 </html>
